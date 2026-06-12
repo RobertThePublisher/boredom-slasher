@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boredom Eraser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #000000;
+            color: #00FF00;
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        #terminal-container {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 40px;
+            text-align: left;
+            line-height: 1.6;
+            min-height: 150px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            background-color: #00FF00;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% { background-color: #00FF00; }
+            50%, 100% { background-color: transparent; }
+        }
+
+        #button-container {
+            margin: 40px 0;
+            display: none; /* Hidden until typing finishes */
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* The Big Red Button */
+        .red-button {
+            background-color: #ff0000;
+            color: white;
+            border: 5px solid #8b0000;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            font-family: 'Courier Prime', sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 10px 0 #8b0000, 0 15px 20px rgba(0,0,0,0.5);
+            transition: all 0.1s ease;
+            outline: none;
+        }
+
+        .red-button:active {
+            transform: translateY(8px);
+            box-shadow: 0 2px 0 #8b0000, 0 5px 10px rgba(0,0,0,0.5);
+        }
+
+        #content-display {
+            width: 100%;
+            max-width: 1000px;
+            height: 600px;
+            margin-top: 20px;
+            border: 3px solid #00FF00;
+            display: none;
+            background: #111;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="terminal-container">
+        <span id="typewriter"></span><span class="cursor">&nbsp;</span>
+    </div>
+
+    <div id="button-container">
+        <button class="red-button" onclick="triggerAdventure()">PUSH ME</button>
+    </div>
+
+    <div id="content-display">
+        </div>
+
+    <script>
+        // The text requested for the automated typewriter effect
+        const textToType = "WARNING: This is not affiliated with clicktheredbutton.com in any-way, credit goes to their owners. this is alternative to it. Also you are bored. i am bored. we are all bored. every-time something gets overwhelmed. and don't know what to do. this website has useless webs, useful webs, YouTube embed videos, arts, interactive webs, more of it. Click to see amazing adventures";
+        
+        let index = 0;
+        const speed = 30; // Typing speed in milliseconds
+
+        function typeWriter() {
+            if (index < textToType.length) {
+                document.getElementById("typewriter").innerHTML += textToType.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            } else {
+                // Show the button once text is fully typed
+                document.getElementById("button-container").style.display = "flex";
+            }
+        }
+
+        // --- THE BOREDOM ERASER DATABASE ---
+        // Array for more webs
+        const adventures = [
+            // Category: YouTube Embeds (Using embed format to allow iframe loading)
+            { type: 'youtube', url: 'https://www.youtube.com/embed/jfKfPfyJRdk' }, // Lofi girl
+            { type: 'youtube', url: 'https://www.youtube.com/embed/9Gb7G9gbyvU' }, // Nature relaxation
+            { type: 'youtube', url: 'https://www.youtube.com/embed/tntOCGkgt98' }, // Deep space ambient
+            { type: 'youtube', url: 'https://www.youtube.com/embed/RvAw5q0KrJ0?si=WWReK7sPST2gIqeh' }, // Funny Cats 
+       
+            // Category: Interactive Webs & Arts (Iframes that allow embedding)
+            { type: 'web', url: 'https://canvaslayers.com/' }, 
+            { type: 'web', url: 'https://archive.org/embed/softwarelibrary_msdos_games' }, // MS-DOS games archive
+            { type: 'web', url: 'https://classicreload.com/' },
+            
+            // Category: Useless/Fun webs
+            { type: 'web', url: 'https://longdogechallenge.com/' },
+            { type: 'web', url: 'https://alwaysjudgeabookbyitscover.com/' },
+            { type: 'web', url: 'https://thatsthefinger.com/' },
+            { type: 'web', url: 'https://heeeeeeeey.com/' },
+            { type: 'web', url: 'https://corndog.io/' },
+            
+            // Category: Useful / Interactive
+            { type: 'web', url: 'https://stellar.org/' },
+            { type: 'web', url: 'https://www.windy.com/' }, // Interactive weather map
+            { type: 'web', url: 'https://neal.fun/size-of-space/' } // Size of space interactive
+            { type: 'web', url: 'https://neal.fun/sandboxels/' } // Interactive sandbox web
+        ];
+
+        let lastIndex = -1;
+
+        function triggerAdventure() {
+            const displayContainer = document.getElementById("content-display");
+            displayContainer.style.display = "block";
+            
+            // Ensure we don't pick the exact same thing twice in a row
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * adventures.length);
+            } while (randomIndex === lastIndex && adventures.length > 1);
+            
+            lastIndex = randomIndex;
+            const chosen = adventures[randomIndex];
+
+            // Render based on source type
+            if (chosen.type === 'youtube') {
+                displayContainer.innerHTML = `<iframe src="${chosen.url}?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else if (chosen.type === 'web') {
+                displayContainer.innerHTML = `<iframe src="${chosen.url}" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>`;
+            }
+
+            // Smoothly scroll down to view the fresh content
+            displayContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Start the automated typing effect on page load
+        window.onload = typeWriter;
+    </script>
+</body>
+</html>
