@@ -1,0 +1,57 @@
+/* Custom Cursor - Applies to the whole site */
+html, body {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;"><text y="20">🔴</text></svg>'), auto;
+}
+
+/* Cursor change when hovering over links or buttons */
+a, button, .clickable {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;"><text y="20">⚡</text></svg>'), pointer;
+}
+
+/* Smooth Scrolling for the page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* "Add-on": Button Shine Effect */
+button {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: 0.5s;
+    opacity: 0;
+}
+
+button:hover::after {
+    left: 100%;
+    opacity: 1;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff0000; /* Matching your red preference */
+    border-radius: 5px;
+}
